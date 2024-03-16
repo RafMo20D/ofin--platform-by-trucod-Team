@@ -1,0 +1,9 @@
+streamlit
+pandas
+openai
+matplotlib
+plotly
+prophet
+scikit-learn
+nltk
+tensorflow
