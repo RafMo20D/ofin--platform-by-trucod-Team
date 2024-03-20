@@ -1,9 +1,7 @@
 streamlit
 pandas
 openai
-matplotlib
+json
 plotly
 prophet
 scikit-learn
-nltk
-tensorflow
