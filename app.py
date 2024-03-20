@@ -7,7 +7,7 @@ import openai
 import plotly.express as px
 
 # Setup OpenAI key
-openai.api_key = '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'
+openai.api_key = ''
 
 def generate_financial_insights(financial_data):
     prompt = f"Generate financial insights based on the following data: {financial_data}"
@@ -37,7 +37,7 @@ def generate_financial_insights(financial_data):
 def get_identity_data(entity_id):
     url = "https://sandbox.leantech.me/data/v1/identity"
     headers = {
-        "lean-app-token": "a7d91218-8c40-41ae-92bd-3623082475b7",
+        "lean-app-token": "a7d9121-8c40-41ae-56566-exmp",
         "Content-Type": "application/json"
     }
     payload = {"entity_id": entity_id}
