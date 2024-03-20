@@ -83,7 +83,7 @@ def perform_horizontal_vertical_analysis(financial_data):
     return df
 
 def main():
-    st.title("Ofin Smart Financial Analysis Platform with Open Banking")
+    st.title("Ofin Smart Financial Analysis Platform with Open Banking and AI Insights")
     entity_id = st.text_input("Entity ID", help="Enter the entity ID here")
 
     if st.button("Analyze Financial Data"):
