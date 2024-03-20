@@ -7,7 +7,7 @@ import openai
 import plotly.express as px
 
 # Setup OpenAI key
-openai.api_key = ''
+openai.api_key = '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'
 
 def generate_financial_insights(financial_data):
     prompt = f"Generate financial insights based on the following data: {financial_data}"
@@ -37,7 +37,7 @@ def generate_financial_insights(financial_data):
 def get_identity_data(entity_id):
     url = "https://sandbox.leantech.me/data/v1/identity"
     headers = {
-        "lean-app-token": "a7d91218-1312365--exmp",
+        "lean-app-token": "a7d91218-8c40-41ae-92bd-3623082475b7",
         "Content-Type": "application/json"
     }
     payload = {"entity_id": entity_id}
@@ -64,47 +64,51 @@ def create_interactive_charts(financial_data):
     fig = px.line(df, x='Quarter', y='Revenue', title='Revenue Over Time')
     st.plotly_chart(fig)
 
+def calculate_financial_ratios(financial_data):
+    ratios = {
+        'P/E Ratio': financial_data['market_value'] / financial_data['earnings'],
+       
+    }
+    return ratios
 
-st.title('Ofin Financial Analysis Platform')
+def perform_horizontal_vertical_analysis(financial_data):
+    df = pd.DataFrame({
+        'Quarter': pd.date_range(start='2021-01-01', periods=len(financial_data['revenue']), freq='Q'),
+        'Revenue': financial_data['revenue']
+    })
+  
+    df['Revenue Growth'] = df['Revenue'].pct_change() * 100
+    
+    df['Revenue as % of Total Revenue'] = (df['Revenue'] / df['Revenue'].sum()) * 100
+    return df
 
-analysis_type = st.sidebar.selectbox("Select Analysis Type", ["Data Visualization", "Predictive Analytics", "Text Analysis", "Similarity Analysis", "Anomaly Detection", "Sentiment Analysis"])
+def main():
+    st.title("Smart Financial Analysis Platform with Open Banking and AI Insights")
+    entity_id = st.text_input("Entity ID", help="Enter the entity ID here")
 
-if analysis_type == "Data Visualization":
-    uploaded_file = st.file_uploader("Upload Financial Data", type=["csv"])
-    if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file)
-        plot_financial_data(data)
+    if st.button("Analyze Financial Data"):
+        if not entity_id:
+            st.error("Please enter a valid entity ID.")
+        else:
+            identity_data = get_identity_data(entity_id)
+            if isinstance(identity_data, dict):
+                financial_data = fetch_financial_data(entity_id)
+                insights = generate_financial_insights(str(financial_data))
+                
+                st.subheader("Generated Financial Insights")
+                st.write(insights)
+                
+                financial_ratios = calculate_financial_ratios(financial_data)
+                st.subheader("Financial Ratios")
+                st.json(financial_ratios)
+                
+                hv_analysis = perform_horizontal_vertical_analysis(financial_data)
+                st.subheader("Horizontal and Vertical Analysis")
+                st.dataframe(hv_analysis)
+                
+                st.subheader("Revenue Over Time")
+                create_interactive_charts(financial_data)
 
-elif analysis_type == "Predictive Analytics":
-    uploaded_file = st.file_uploader("Upload Financial Data with Dates", type=["csv"])
-    if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file)
-        fig = forecast_financials(data)
-        st.plotly_chart(fig)
 
-elif analysis_type == "Text Analysis":
-    text_data = st.text_area("Paste your financial report text here:")
-    if st.button('Analyze Text'):
-        insights = analyze_text_data(text_data)
-        st.write(insights)
-
-elif analysis_type == "Similarity Analysis":
-    report1 = st.text_area("Paste the first financial report text:")
-    report2 = st.text_area("Paste the second financial report text:")
-    if st.button('Compare Texts'):
-        similarity_score = text_similarity_analysis(report1, report2)
-        st.write(f"Similarity Score: {similarity_score}")
-
-elif analysis_type == "Anomaly Detection":
-    uploaded_file = st.file_uploader("Upload Financial Data for Anomaly Detection", type=["csv"])
-    if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file)
-        anomalies = detect_anomalies(data)
-        st.write("Detected Anomalies:", anomalies)
-
-elif analysis_type == "Sentiment Analysis":
-    text_data = st.text_area("Paste the financial text for sentiment analysis:")
-    if st.button('Analyze Sentiment'):
-        sentiment_score = analyze_sentiment(text_data)
-        st.write(f"Sentiment Score: {sentiment_score}")
-
+if __name__ == "__main__":
+    main()                
