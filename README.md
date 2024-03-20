@@ -6,7 +6,7 @@ In light of the escalating economic urgency stemming from numerous investor and 
 This approach addresses the core issues of efficiency, accuracy, and the ability to forecast ROI on missing projects. Here’s a breakdown of how it works:- 
 Account Information Services (AIS) Seamless Data Aggregation Utilizing open banking technology, the platform aggregates financial data from various sources in real-time. This ensures a comprehensive view of an individual's or company's financial status, eliminating the need for manual data collection and reducing the margin for error. Secure Financial Data Access AIS allows the platform to access financial data securely and with user consent, ensuring privacy and data protection while providing a rich dataset for analysis.
 # Create Account leantech Open Banking
-- [Leantech](https://www.leantech.me/):
+- [Leantech](https://www.leantech.me/)
 
 # How to Run
 ```
